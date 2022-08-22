@@ -7,6 +7,8 @@ import { ResourceHistory } from '../shared/ResourceHistory';
 import { ResourceOperationsList } from '../shared/ResourceOperationsList';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
+import { SecuredByRole } from './SecuredByRole';
+import { RoleName } from '../../models/roleNames';
 
 interface ResourceBodyProps {
   resource: Resource,
@@ -44,9 +46,11 @@ export const ResourceBody: React.FunctionComponent<ResourceBodyProps> = (props: 
       }
       {
         !props.readonly &&
-        <PivotItem headerText="Operations">
-          <ResourceOperationsList resource={props.resource} />
-        </PivotItem>
+        <SecuredByRole allowedRoles={[RoleName.TREAdmin, RoleName.]} workspaceAuth={false} element={
+          <PivotItem headerText="Operations">
+            <ResourceOperationsList resource={props.resource} />
+          </PivotItem>
+        } />
       }
     </Pivot>
   );

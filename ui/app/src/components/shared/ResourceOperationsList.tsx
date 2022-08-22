@@ -70,6 +70,16 @@ export const ResourceOperationsList: React.FunctionComponent<ResourceOperationsL
           }
         </>
       );
+    case 'unauthorised':
+      return (
+        <MessageBar
+          messageBarType={MessageBarType.error}
+          isMultiline={true}
+        >
+          <h3>Unauthorised</h3>
+          <p>Your role doesn't allow you to view operations. If you believe this is an error, please contact your TRE Admin to review your role access.</p>
+        </MessageBar>
+      )
     case 'error':
       return (
         <MessageBar
