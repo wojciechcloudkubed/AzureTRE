@@ -15,7 +15,7 @@ import { OperationsContext } from './contexts/OperationsContext';
 import { completedStates, Operation } from './models/operation';
 import { HttpMethod, ResultType, useAuthApiCall } from './hooks/useAuthApiCall';
 import { ApiEndpoint } from './models/apiEndpoints';
-import { CreateUpdateResource } from './components/shared/create-update-resource/CreateUpdateResource';
+import { CreateUpdateResourceMemo } from './components/shared/create-update-resource/CreateUpdateResource';
 import { CreateUpdateResourceContext } from './contexts/CreateUpdateResourceContext';
 import { CreateFormResource, ResourceType } from './models/resourceType';
 import { Footer } from './components/shared/Footer';
@@ -24,7 +24,7 @@ export const App: React.FunctionComponent = () => {
   const [appRoles, setAppRoles] = useState([] as Array<string>);
   const [selectedWorkspace, setSelectedWorkspace] = useState({} as Workspace);
   const [workspaceRoles, setWorkspaceRoles] = useState([] as Array<string>);
-  const [operations, setOperations] = useState([] as Array<Operation>);
+
 
   const [createFormOpen, setCreateFormOpen] = useState(false);
   const [createFormResource, setCreateFormResource] = useState({ resourceType: ResourceType.Workspace } as CreateFormResource);
@@ -46,41 +46,15 @@ export const App: React.FunctionComponent = () => {
       <Routes>
         <Route path="*" element={
           <MsalAuthenticationTemplate interactionType={InteractionType.Redirect}>
-            <CreateUpdateResourceContext.Provider value={{
-              openCreateForm: (createFormResource: CreateFormResource) => {
-                setCreateFormResource(createFormResource);
-                setCreateFormOpen(true);
-              }
-            }} >
-              <OperationsContext.Provider value={{
-                operations: operations,
-                addOperations: (ops: Array<Operation>) => {
-                  let stateOps = [...operations];
-                  ops.forEach((op: Operation) => {
-                    let i = stateOps.findIndex((f: Operation) => f.id === op.id);
-                    if (i !== -1) {
-                      stateOps.splice(i, 1, op);
-                    } else {
-                      stateOps.push(op);
-                    }
-                  });
-                  setOperations(stateOps);
-                },
-                dismissCompleted: () => {
-                  let stateOps = [...operations];
-                  stateOps.forEach((o:Operation) => {
-                    if(completedStates.includes(o.status)) {
-                      o.dismiss = true;
-                    }
-                  })
-                  setOperations(stateOps);
-                }
-              }}>
+              <OperationsContextProvider>
+              <CreateUpdateResourceContextProvider
+              setCreateFormResource={(createFormResource: CreateFormResource) => setCreateFormResource(createFormResource)}
+              setCreateFormOpen={() => setCreateFormOpen(true)}>
                 <AppRolesContext.Provider value={{
                   roles: appRoles,
                   setAppRoles: (roles: Array<string>) => { setAppRoles(roles) }
                 }}>
-                  <CreateUpdateResource
+                  <CreateUpdateResourceMemo
                     isOpen={createFormOpen}
                     onClose={() => setCreateFormOpen(false)}
                     resourceType={createFormResource.resourceType}
@@ -116,16 +90,16 @@ export const App: React.FunctionComponent = () => {
                     </Stack.Item>
                   </Stack>
                 </AppRolesContext.Provider>
-              </OperationsContext.Provider>
-            </CreateUpdateResourceContext.Provider>
+                </CreateUpdateResourceContextProvider>
+              </OperationsContextProvider>
+
           </MsalAuthenticationTemplate>
         } />
         <Route path='/logout' element={
           <div className='tre-logout-message'>
             <MessageBar
               messageBarType={MessageBarType.success}
-              isMultiline={true}
-            >
+              isMultiline={true}>
               <h2>You are logged out.</h2>
               <p>It's a good idea to close your browser windows.</p>
             </MessageBar>
@@ -149,6 +123,75 @@ export const Admin: React.FunctionComponent = () => {
 }
 
 
+interface CreateProviderProps {
+  setCreateFormResource: (createFormResource: CreateFormResource) => void,
+  setCreateFormOpen: (open: boolean) => void,
+  children?: JSX.Element | JSX.Element[]
+}
+
+const CreateUpdateResourceContextProvider: React.FunctionComponent<CreateProviderProps> = (props: CreateProviderProps) => {
+  return (
+    <CreateUpdateResourceContext.Provider value={{
+      openCreateForm: (createFormResource: CreateFormResource) => {
+        props.setCreateFormResource(createFormResource);
+        props.setCreateFormOpen(true);
+      }
+    }}>
+      {props.children}
+    </CreateUpdateResourceContext.Provider>
+  )
+}
 
 
+interface OperationsProviderProps {
+  children?: JSX.Element | JSX.Element[]
+}
+
+const OperationsContextProvider: React.FunctionComponent<OperationsProviderProps> = (props: OperationsProviderProps) => {
+  const [operations, setOperations] = useState([] as Array<Operation>);
+  const apiCall = useAuthApiCall();
+
+  useEffect(() => {
+    const loadAllOps = async () => {
+      let opsToAdd = (await apiCall(`${ApiEndpoint.Operations}`, HttpMethod.Get)).operations as Array<Operation>;
+      setOperations(opsToAdd);
+    };
+
+    loadAllOps();
+  }, [apiCall])
+
+  return (
+    <OperationsContext.Provider value={{
+      operations: operations,
+      addOperations: (ops: Array<Operation>) => {
+        let stateOps = [...operations];
+
+        ops.forEach((op: Operation) => {
+          let i = stateOps.findIndex((f: Operation) => f.id === op.id);
+          if (i !== -1) {
+            stateOps.splice(i, 1, op);
+          } else {
+            stateOps.push(op);
+          }
+        });
+        console.log("setting stateOps", stateOps);
+        setOperations(stateOps);
+      },
+      dismissCompleted: () => {
+        let stateOps = [...operations];
+        stateOps.forEach((o: Operation) => {
+          if (completedStates.includes(o.status)) {
+            o.dismiss = true;
+          }
+        })
+        setOperations(stateOps);
+      }
+    }}>
+      {props.children}
+    </OperationsContext.Provider>
+  )
+}
+function apiCall(arg0: string, Get: HttpMethod) {
+  throw new Error('Function not implemented.');
+}
 

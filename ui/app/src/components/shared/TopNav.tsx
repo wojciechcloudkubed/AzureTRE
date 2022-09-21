@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getTheme, Icon, mergeStyles, Stack } from '@fluentui/react';
 import { Link } from 'react-router-dom';
 import { UserMenu } from './UserMenu';
 import { NotificationPanel } from './notifications/NotificationPanel';
 
 export const TopNav: React.FunctionComponent = () => {
+
+  useEffect(() => {
+ //  console.warn("TopNav render");
+  });
+
   return (
     <>
       <div className={contentClass}>

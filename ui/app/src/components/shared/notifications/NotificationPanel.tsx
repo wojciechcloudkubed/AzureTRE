@@ -10,20 +10,20 @@ import { Resource } from '../../../models/resource';
 
 export const NotificationPanel: React.FunctionComponent = () => {
   const opsContext = useContext(OperationsContext);
-  const opsWriteContext = useRef(useContext(OperationsContext));
+ // const opsWriteContext = useRef(useContext(OperationsContext));
   const [isOpen, setIsOpen] = useState(false);
   const [showCallout, setShowCallout] = useState(false);
   const [calloutDetails, setCalloutDetails] = useState({ title: '', text: '', success: true });
   const apiCall = useAuthApiCall();
 
-  useEffect(() => {
-    const loadAllOps = async () => {
-      let opsToAdd = (await apiCall(`${ApiEndpoint.Operations}`, HttpMethod.Get)).operations as Array<Operation>;
-      opsWriteContext.current.addOperations(opsToAdd);
-    };
+  // useEffect(() => {
+  //   const loadAllOps = async () => {
+  //     let opsToAdd = (await apiCall(`${ApiEndpoint.Operations}`, HttpMethod.Get)).operations as Array<Operation>;
+  //     opsContext.addOperations(opsToAdd);
+  //   };
 
-    loadAllOps();
-  }, [apiCall])
+  //   loadAllOps();
+  // }, [apiCall])
 
   const callout = (o: Operation, r: Resource) => {
     if (successStates.includes(o.status)) {

@@ -1,5 +1,5 @@
 import { Icon, mergeStyles, Panel, PanelType, PrimaryButton } from '@fluentui/react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ApiEndpoint } from '../../../models/apiEndpoints';
 import { Operation } from '../../../models/operation';
@@ -12,7 +12,7 @@ import { SelectTemplate } from './SelectTemplate';
 import { getResourceFromResult, Resource } from '../../../models/resource';
 import { HttpMethod, useAuthApiCall } from '../../../hooks/useAuthApiCall';
 
-interface CreateUpdateResourceProps {
+interface CreateUpdateResourceMemoProps {
   isOpen: boolean,
   onClose: () => void,
   workspaceApplicationIdURI?: string,
@@ -20,6 +20,10 @@ interface CreateUpdateResourceProps {
   parentResource?: Workspace | WorkspaceService,
   onAddResource?: (r: Resource) => void,
   updateResource?: Resource
+}
+
+interface CreateUpdateResourceProps extends CreateUpdateResourceMemoProps {
+  updateOperation: (op: Operation) => void
 }
 
 interface PageTitle {
@@ -37,13 +41,18 @@ const creatingIconClass = mergeStyles({
   padding: 20
 });
 
-export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceProps> = (props: CreateUpdateResourceProps) => {
+const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceProps> = (props: CreateUpdateResourceProps) => {
   const [page, setPage] = useState('selectTemplate' as keyof PageTitle);
   const [selectedTemplate, setTemplate] = useState(props.updateResource?.templateName || '');
   const [deployOperation, setDeployOperation] = useState({} as Operation);
-  const opsContext = useContext(OperationsContext);
+
+  // const [currentPage, setCurrentPage] = useState(<></> as JSX.Element);
   const navigate = useNavigate();
   const apiCall = useAuthApiCall();
+
+  useEffect(() => {
+   // console.warn("CreateUpdateResource render");
+  })
 
   useEffect(() => {
     const clearState = () => {
@@ -64,7 +73,7 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
   }
 
   // Construct API path for templates of specified resourceType
-  let templatesPath;
+  let templatesPath: string;
   switch (props.resourceType) {
     case ResourceType.Workspace:
       templatesPath = ApiEndpoint.WorkspaceTemplates; break;
@@ -83,7 +92,7 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
   }
 
   // Construct API path for resource creation
-  let resourcePath;
+  let resourcePath: string;
   switch (props.resourceType) {
     case ResourceType.Workspace:
       resourcePath = ApiEndpoint.Workspaces; break;
@@ -104,8 +113,9 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
   const resourceCreating = async (operation: Operation) => {
     setDeployOperation(operation);
     setPage('creating');
+
     // Add deployment operation to notifications operation poller
-    opsContext.addOperations([operation]);
+    props.updateOperation(operation);
 
     // if an onAdd callback has been given, get the resource we just created and pass it back
     if (props.onAddResource) {
@@ -114,31 +124,9 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
     }
   }
 
-  // Render the current panel sub-page
-  let currentPage;
-  switch (page) {
-    case 'selectTemplate':
-      currentPage = <SelectTemplate templatesPath={templatesPath} onSelectTemplate={selectTemplate} />; break;
-    case 'resourceForm':
-      currentPage = <ResourceForm
-        templateName={selectedTemplate}
-        templatePath={`${templatesPath}/${selectedTemplate}`}
-        resourcePath={resourcePath}
-        onCreateResource={resourceCreating}
-        workspaceApplicationIdURI={props.workspaceApplicationIdURI}
-        updateResource={props.updateResource}
-      />; break;
-    case 'creating':
-      currentPage = <div style={{ textAlign: 'center', paddingTop: 100 }}>
-        <Icon iconName="CloudAdd" className={creatingIconClass} />
-        <h1>{props.updateResource?.id ? 'Updating' : 'Creating'} {props.resourceType}...</h1>
-        <p>Check the notifications panel for deployment progress.</p>
-        <PrimaryButton text="Go to resource" onClick={() => {navigate(deployOperation.resourcePath); props.onClose();}} />
-      </div>; break;
-  }
-
-  return (
-    <>
+  //return (
+  return useMemo(() => {
+    return (<>
       <Panel
         headerText={pageTitles[page]}
         isOpen={props.isOpen}
@@ -148,9 +136,47 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
         isLightDismiss
       >
         <div style={{ paddingTop: 30 }}>
-          {currentPage}
+          {
+            page === 'selectTemplate' &&
+            <SelectTemplate templatesPath={templatesPath} onSelectTemplate={selectTemplate} />
+          }
+          {
+            page === 'resourceForm' &&
+            <ResourceForm
+              templateName={selectedTemplate}
+              templatePath={`${templatesPath}/${selectedTemplate}`}
+              resourcePath={resourcePath}
+              onCreateResource={(op: Operation) => resourceCreating(op)}
+              workspaceApplicationIdURI={props.workspaceApplicationIdURI}
+              updateResource={props.updateResource}
+            />
+          }
+          {
+            page === 'creating' &&
+            <div style={{ textAlign: 'center', paddingTop: 100 }}>
+              <Icon iconName="CloudAdd" className={creatingIconClass} />
+              <h1>{props.updateResource?.id ? 'Updating' : 'Creating'} {props.resourceType}...</h1>
+              <p>Check the notifications panel for deployment progress.</p>
+              <PrimaryButton text="Go to resource" onClick={() => { navigate(deployOperation.resourcePath); props.onClose(); }} />
+            </div>
+          }
         </div>
       </Panel>
-    </>
-  );
+    </>)
+  }, [props.isOpen, page]);
+  // );
 };
+
+
+export const CreateUpdateResourceMemo: React.FunctionComponent<CreateUpdateResourceMemoProps> = (props: CreateUpdateResourceMemoProps) => {
+  const opsContext = useContext(OperationsContext);
+
+  const updateOp = (op: Operation) => {
+    console.log("Inside CreateUpdate, ops are ", opsContext.operations);
+    opsContext.addOperations([op]);
+  }
+
+  // return useMemo(() => {
+  return <CreateUpdateResource {...props} updateOperation={(op: Operation) => updateOp(op)} />
+  // }, [props]);
+}
