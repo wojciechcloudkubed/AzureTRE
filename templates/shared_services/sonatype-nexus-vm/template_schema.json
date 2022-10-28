@@ -17,9 +17,6 @@
   "pipeline": {
     "install": [
       {
-        "stepId": "main"
-      },
-      {
         "stepId": "42024559-3a88-4518-b1ea-713aebc91cfd",
         "stepTitle": "Add Nexus rule collection to firewall",
         "resourceTemplateName": "tre-shared-service-firewall",
@@ -71,12 +68,12 @@
             }
           }
         ]
+      },
+      {
+        "stepId": "main"
       }
     ],
     "upgrade": [
-      {
-        "stepId": "main"
-      },
       {
         "stepId": "a794e818-0807-4012-90be-3e78f530383c",
         "stepTitle": "Update Nexus rule collection in firewall",
@@ -129,6 +126,9 @@
             }
           }
         ]
+      },
+      {
+        "stepId": "main"
       }
     ],
     "uninstall": [
