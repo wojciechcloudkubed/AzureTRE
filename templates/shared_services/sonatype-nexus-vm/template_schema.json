@@ -45,7 +45,7 @@
                       "type": "Http"
                     }
                   ],
-                  "target_fqdns": "{{ resource.properties.workspace_vm_allowed_fqdns_list }}",
+                  "target_fqdns": "{{ resource.properties.workspace_vm_allowed_fqdns }}",
                   "source_addresses": ["*"]
                 },
                 {
@@ -61,7 +61,7 @@
                       "type": "Http"
                     }
                   ],
-                  "target_fqdns": "{{ resource.properties.nexus_allowed_fqdns_list }}",
+                  "target_fqdns": "{{ resource.properties.nexus_allowed_fqdns }}",
                   "source_addresses": "{{ resource.properties.shared_address_prefixes }}"
                 }
               ]
@@ -103,7 +103,7 @@
                       "type": "Http"
                     }
                   ],
-                  "target_fqdns": "{{ resource.properties.workspace_vm_allowed_fqdns_list }}",
+                  "target_fqdns": "{{ resource.properties.workspace_vm_allowed_fqdns }}",
                   "source_addresses": ["*"]
                 },
                 {
@@ -119,7 +119,7 @@
                       "type": "Http"
                     }
                   ],
-                  "target_fqdns": "{{ resource.properties.nexus_allowed_fqdns_list }}",
+                  "target_fqdns": "{{ resource.properties.nexus_allowed_fqdns }}",
                   "source_addresses": "{{ resource.properties.shared_address_prefixes }}"
                 }
               ]

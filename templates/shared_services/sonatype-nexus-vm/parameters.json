@@ -41,10 +41,13 @@
       }
     },
     {
-      "name": "ssl_cert_name",
-      "source": {
-        "env": "SSL_CERT_NAME"
-      }
+      "name": "ssl_cert_name"
+    },
+    {
+      "name": "nexus_allowed_fqdns"
+    },
+    {
+      "name": "workspace_vm_allowed_fqdns"
     }
   ]
 }

@@ -1,6 +1,6 @@
 ---
 name: tre-shared-service-sonatype-nexus
-version: 2.2.3
+version: 2.2.4
 description: "A Sonatype Nexus shared service"
 dockerfile: Dockerfile.tmpl
 registry: azuretre
@@ -42,17 +42,15 @@ parameters:
     type: string
     default: "nexus-ssl"
     description: "Name of the certificate for configuring Nexus SSL with (stored in the core KeyVault)"
+  - name: workspace_vm_allowed_fqdns
+    type: string
+    default: "r3.o.lencr.org,x1.c.lencr.org"
+    description: "FQDNs to whitelist for workspace vm"
+  - name: nexus_allowed_fqdns
+    type: string
+    default: "*pypi.org,files.pythonhosted.org,security.ubuntu.com,archive.ubuntu.com,keyserver.ubuntu.com,repo.anaconda.com,*.docker.com,*.docker.io,conda.anaconda.org,azure.archive.ubuntu.com,packages.microsoft.com,repo.almalinux.org,download-ib01.fedoraproject.org,cran.r-project.org,cloud.r-project.org"
+    description: "FQDNs to whitelist for Nexus package repositories"
 outputs:
-  - name: workspace_vm_allowed_fqdns_list
-    type: string
-    applyTo:
-      - install
-      - upgrade
-  - name: nexus_allowed_fqdns_list
-    type: string
-    applyTo:
-      - install
-      - upgrade
   - name: shared_address_prefixes
     applyTo:
       - install
@@ -78,8 +76,6 @@ install:
         container_name: "{{ bundle.parameters.tfstate_container_name }}"
         key: "{{ bundle.parameters.tre_id }}-shared-service-sonatype-nexus-vm"
       outputs:
-        - name: workspace_vm_allowed_fqdns_list
-        - name: nexus_allowed_fqdns_list
         - name: shared_address_prefixes
 
 upgrade:
@@ -96,8 +92,6 @@ upgrade:
         container_name: "{{ bundle.parameters.tfstate_container_name }}"
         key: "{{ bundle.parameters.tre_id }}-shared-service-sonatype-nexus-vm"
       outputs:
-        - name: workspace_vm_allowed_fqdns_list
-        - name: nexus_allowed_fqdns_list
         - name: shared_address_prefixes
 uninstall:
   - terraform:
