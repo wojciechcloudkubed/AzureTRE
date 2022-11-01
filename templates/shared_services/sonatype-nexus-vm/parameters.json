@@ -41,6 +41,12 @@
       }
     },
     {
+      "name": "shared_address_prefixes",
+      "source": {
+        "env": "SHARED_ADDRESS_PREFIXES"
+      }
+    },
+    {
       "name": "ssl_cert_name"
     },
     {

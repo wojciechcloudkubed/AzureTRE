@@ -38,6 +38,10 @@ output "resource_processor_subnet_id" {
   value = azurerm_subnet.resource_processor.id
 }
 
+output "shared_address_prefixes" {
+  value = azurerm_subnet.shared.address_prefixes
+}
+
 # DNS Zones
 
 output "private_dns_zone_mysql_id" {

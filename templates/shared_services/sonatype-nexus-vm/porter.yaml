@@ -1,6 +1,6 @@
 ---
 name: tre-shared-service-sonatype-nexus
-version: 2.2.4
+version: 2.2.5
 description: "A Sonatype Nexus shared service"
 dockerfile: Dockerfile.tmpl
 registry: azuretre
@@ -50,11 +50,8 @@ parameters:
     type: string
     default: "*pypi.org,files.pythonhosted.org,security.ubuntu.com,archive.ubuntu.com,keyserver.ubuntu.com,repo.anaconda.com,*.docker.com,*.docker.io,conda.anaconda.org,azure.archive.ubuntu.com,packages.microsoft.com,repo.almalinux.org,download-ib01.fedoraproject.org,cran.r-project.org,cloud.r-project.org"
     description: "FQDNs to whitelist for Nexus package repositories"
-outputs:
   - name: shared_address_prefixes
-    applyTo:
-      - install
-      - upgrade
+    type: string
 
 mixins:
   - exec
@@ -75,8 +72,6 @@ install:
         storage_account_name: "{{ bundle.parameters.tfstate_storage_account_name }}"
         container_name: "{{ bundle.parameters.tfstate_container_name }}"
         key: "{{ bundle.parameters.tre_id }}-shared-service-sonatype-nexus-vm"
-      outputs:
-        - name: shared_address_prefixes
 
 upgrade:
   - terraform:
@@ -91,8 +86,7 @@ upgrade:
         storage_account_name: "{{ bundle.parameters.tfstate_storage_account_name }}"
         container_name: "{{ bundle.parameters.tfstate_container_name }}"
         key: "{{ bundle.parameters.tre_id }}-shared-service-sonatype-nexus-vm"
-      outputs:
-        - name: shared_address_prefixes
+
 uninstall:
   - terraform:
       description: "Tear down shared service"
