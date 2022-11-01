@@ -158,7 +158,7 @@ module "resource_processor_vmss_porter" {
 
   rp_bundle_values = merge(var.rp_bundle_values, {
     // Add any additional bundle vars required from core outputs
-    RP_BUNDLE_SHARED_ADDRESS_PREFIXES = "${module.network.shared_address_prefixes}"
+    RP_BUNDLE_SHARED_ADDRESS_PREFIXES = jsonencode(module.network.shared_address_prefixes)
   })
 
   depends_on = [
