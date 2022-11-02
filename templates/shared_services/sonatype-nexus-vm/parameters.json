@@ -48,12 +48,6 @@
     },
     {
       "name": "ssl_cert_name"
-    },
-    {
-      "name": "nexus_allowed_fqdns"
-    },
-    {
-      "name": "workspace_vm_allowed_fqdns"
     }
   ]
 }
