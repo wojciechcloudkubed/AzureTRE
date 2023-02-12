@@ -1,3 +1,4 @@
+import uuid
 import pytest
 import pytest_asyncio
 from mock import patch
@@ -338,6 +339,7 @@ def multi_step_operation(
         updatedWhen=FAKE_CREATE_TIMESTAMP,
         steps=[
             OperationStep(
+                id=str(uuid.uuid4()),
                 stepId="pre-step-1",
                 stepTitle="Title for pre-step-1",
                 resourceAction="upgrade",
@@ -350,6 +352,7 @@ def multi_step_operation(
                 parentResourceId="59b5c8e7-5c42-4fcb-a7fd-294cfc27aa76"
             ),
             OperationStep(
+                id=str(uuid.uuid4()),
                 stepId="main",
                 stepTitle="Main step for 59b5c8e7-5c42-4fcb-a7fd-294cfc27aa76",
                 resourceAction="install",
@@ -362,6 +365,7 @@ def multi_step_operation(
                 parentResourceId=None
             ),
             OperationStep(
+                id=str(uuid.uuid4()),
                 stepId="post-step-1",
                 stepTitle="Title for post-step-1",
                 resourceAction="upgrade",

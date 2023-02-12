@@ -136,6 +136,7 @@ def sample_resource_operation(resource_id: str, operation_id: str):
         user=create_test_user(),
         steps=[
             OperationStep(
+                id=str(uuid.uuid4()),
                 stepId="main",
                 resourceId=resource_id,
                 resourceAction="install",

@@ -42,6 +42,7 @@ class OperationStep(AzureTREModel):
     The steps are built up front as the operation is created from the initial user request.
     As each step completes, the next one is processed.
     """
+    id: str = Field(title="id", description="Unique id identifying the specific operation step")
     stepId: str = Field(title="stepId", description="Unique id identifying the step")
     stepTitle: Optional[str] = Field(title="stepTitle", description="Human readable title of what the step is for")
     resourceId: Optional[str] = Field(title="resourceId", description="Id of the resource to update")
@@ -99,7 +100,7 @@ class DeploymentStatusUpdateMessage(AzureTREModel):
     Model for service bus message flowing back to API to update status in DB
     """
     operationId: UUID4 = Field(title="", description="")
-    stepId: str = Field(title="", description="")
+    operationStepId: str = Field(title="", description="")
     id: UUID4 = Field(title="", description="")
     status: Status = Field(title="", description="")
     message: str = Field(title="", description="")

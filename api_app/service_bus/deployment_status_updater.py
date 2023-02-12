@@ -102,14 +102,14 @@ class DeploymentStatusUpdater():
 
             current_step_index = 0
             for i, step in enumerate(operation.steps):
-                if step.stepId == message.stepId and step.resourceId == str(message.id):
+                if step.id == message.operationStepId and step.resourceId == str(message.id):
                     step_to_update = step
                     current_step_index = i
                     if i == (len(operation.steps) - 1):
                         is_last_step = True
 
             if step_to_update is None:
-                raise f"Error finding step {message.stepId} in operation {message.operationId}"
+                raise f"Error finding step {message.operationStepId} in operation {message.operationId}"
 
             # update the step status
             step_to_update.status = message.status

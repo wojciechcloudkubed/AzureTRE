@@ -96,6 +96,7 @@ def create_sample_operation(resource_id, request_action):
         updatedWhen=FAKE_UPDATE_TIMESTAMP,
         steps=[
             OperationStep(
+                id=str(uuid.uuid4()),
                 stepId="main",
                 resourceId=resource_id,
                 stepTitle=f"main step for {resource_id}",
