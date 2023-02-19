@@ -125,7 +125,7 @@ resource "azurerm_private_endpoint" "gitea_private_endpoint" {
   }
 
   private_dns_zone_group {
-    name                 = "privatelink.azurewebsites.net"
+    name                 = "privatelink.azurewebsites.us"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.azurewebsites.id]
   }
 

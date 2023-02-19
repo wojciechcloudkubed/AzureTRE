@@ -12,7 +12,7 @@
 # - privatelink.agentsvc.azure-automation.net
 # - privatelink.blob.core.windows.net (used also by Storage module)
 resource "azurerm_private_dns_zone" "azure_monitor" {
-  name                = "privatelink.monitor.azure.com"
+  name                = "privatelink.monitor.azure.us"
   resource_group_name = var.ws_resource_group_name
   tags                = var.tre_workspace_tags
 
@@ -50,7 +50,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "azure_monitor_oms_opin
 }
 
 resource "azurerm_private_dns_zone" "azure_monitor_ods_opinsights" {
-  name                = "privatelink.ods.opinsights.azure.com"
+  name                = "privatelink.ods.opinsights.azure.us"
   resource_group_name = var.ws_resource_group_name
   tags                = var.tre_workspace_tags
   lifecycle { ignore_changes = [tags] }
@@ -67,7 +67,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "azure_monitor_ods_opin
 }
 
 resource "azurerm_private_dns_zone" "azure_monitor_agentsvc" {
-  name                = "privatelink.agentsvc.azure-automation.net"
+  name                = "privatelink.agentsvc.azure-automation.us"
   resource_group_name = var.ws_resource_group_name
   tags                = var.tre_workspace_tags
   lifecycle { ignore_changes = [tags] }

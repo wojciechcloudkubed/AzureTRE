@@ -60,7 +60,7 @@ moved {
 }
 
 resource "azurerm_private_dns_zone" "cosmos" {
-  name                = "privatelink.documents.azure.com"
+  name                = "privatelink.documents.azure.us"
   resource_group_name = azurerm_resource_group.core.name
   tags                = local.tre_core_tags
   lifecycle { ignore_changes = [tags] }

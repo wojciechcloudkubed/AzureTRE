@@ -34,7 +34,7 @@ data "azurerm_route_table" "rt" {
 }
 
 data "azurerm_private_dns_zone" "azureml" {
-  name                = "privatelink.api.azureml.ms"
+  name                = "privatelink.api.azureml.us"
   resource_group_name = local.core_resource_group_name
 }
 
@@ -44,6 +44,6 @@ data "azurerm_private_dns_zone" "azuremlcert" {
 }
 
 data "azurerm_private_dns_zone" "notebooks" {
-  name                = "privatelink.notebooks.azure.net"
+  name                = "privatelink.notebooks.usgovcloudapi.net"
   resource_group_name = local.core_resource_group_name
 }

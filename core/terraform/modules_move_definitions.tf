@@ -236,12 +236,12 @@ moved {
 # DNS Zones
 moved {
   from = module.network.azurerm_private_dns_zone.mysql
-  to   = azurerm_private_dns_zone.non_core["privatelink.mysql.database.azure.com"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.mysql.database.usgovcloudapi.net"]
 }
 
 moved {
   from = module.network.azurerm_private_dns_zone.azureml
-  to   = azurerm_private_dns_zone.non_core["privatelink.api.azureml.ms"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.api.azureml.us"]
 }
 
 moved {
@@ -251,7 +251,7 @@ moved {
 
 moved {
   from = module.network.azurerm_private_dns_zone.notebooks
-  to   = azurerm_private_dns_zone.non_core["privatelink.notebooks.azure.net"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.notebooks.usgovcloudapi.net"]
 }
 
 moved {

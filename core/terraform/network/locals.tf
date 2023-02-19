@@ -28,7 +28,7 @@ locals {
   }
 
   private_dns_zone_names = toset([
-    "privatelink.queue.core.windows.net",
-    "privatelink.table.core.windows.net"
+    "privatelink.queue.core.usgovcloudapi.net",
+    "privatelink.table.core.usgovcloudapi.net"
   ])
 }

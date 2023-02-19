@@ -25,6 +25,6 @@ data "azurerm_private_dns_zone" "databricks" {
 data "azurerm_subscription" "current" {}
 
 data "azurerm_private_dns_zone" "blobcore" {
-  name                = "privatelink.blob.core.windows.net"
+  name                = "privatelink.blob.core.usgovcloudapi.net"
   resource_group_name = local.core_resource_group_name
 }

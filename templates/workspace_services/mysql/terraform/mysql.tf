@@ -50,7 +50,7 @@ resource "azurerm_private_endpoint" "mysql_private_endpoint" {
   }
 
   private_dns_zone_group {
-    name                 = "privatelink.mysql.database.azure.com"
+    name                 = "privatelink.mysql.database.usgovcloudapi.net"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.mysql.id]
   }
 

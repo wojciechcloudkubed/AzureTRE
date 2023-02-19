@@ -30,7 +30,7 @@ resource "azurerm_servicebus_queue" "service_bus_deployment_status_update_queue"
 }
 
 resource "azurerm_private_dns_zone" "servicebus" {
-  name                = "privatelink.servicebus.windows.net"
+  name                = "privatelink.servicebus.usgovcloudapi.net"
   resource_group_name = azurerm_resource_group.core.name
   tags                = local.tre_core_tags
   lifecycle { ignore_changes = [tags] }

@@ -129,7 +129,7 @@ resource "azurerm_private_endpoint" "mlflow" {
   }
 
   private_dns_zone_group {
-    name                 = "privatelink.azurewebsites.net"
+    name                 = "privatelink.azurewebsites.us"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.azurewebsites.id]
   }
 }

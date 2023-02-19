@@ -86,11 +86,11 @@ data "azurerm_storage_account" "mlflow" {
 }
 
 data "azurerm_private_dns_zone" "azurewebsites" {
-  name                = "privatelink.azurewebsites.net"
+  name                = "privatelink.azurewebsites.us"
   resource_group_name = local.core_resource_group_name
 }
 
 data "azurerm_private_dns_zone" "postgres" {
-  name                = "privatelink.postgres.database.azure.com"
+  name                = "privatelink.postgres.database.usgovcloudapi.net"
   resource_group_name = local.core_resource_group_name
 }

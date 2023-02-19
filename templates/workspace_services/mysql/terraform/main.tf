@@ -52,6 +52,6 @@ data "azurerm_subnet" "services" {
 }
 
 data "azurerm_private_dns_zone" "mysql" {
-  name                = "privatelink.mysql.database.azure.com"
+  name                = "privatelink.mysql.database.usgovcloudapi.net"
   resource_group_name = local.core_resource_group_name
 }
