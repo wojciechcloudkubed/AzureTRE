@@ -142,7 +142,7 @@ class ClientCredentialsApiClient(ApiClient):
             headers = {'Content-Type': "application/x-www-form-urlencoded"}
             # Use Client Credentials flow
             payload = f"grant_type=client_credentials&client_id={self._client_id}&client_secret={self._client_secret}&scope={scope or self._scope}/.default"
-            url = f"https://login.microsoftonline.com/{self._aad_tenant_id}/oauth2/v2.0/token"
+            url = f"https://login.microsoftonline.us/{self._aad_tenant_id}/oauth2/v2.0/token"
 
             log.debug('POSTing to token endpoint')
             response = client.post(url, headers=headers, content=payload)
@@ -189,7 +189,7 @@ class DeviceCodeApiClient(ApiClient):
 
         app = msal.PublicClientApplication(
             client_id=self._client_id,
-            authority=f"https://login.microsoftonline.com/{self._aad_tenant_id}",
+            authority=f"https://login.microsoftonline.us/{self._aad_tenant_id}",
             token_cache=cache)
 
         accounts = app.get_accounts()

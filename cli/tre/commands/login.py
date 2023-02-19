@@ -95,7 +95,7 @@ def login_device_code(base_url: str, client_id: str, aad_tenant_id: str, api_sco
 
     app = msal.PublicClientApplication(
         client_id=client_id,
-        authority=f"https://login.microsoftonline.com/{aad_tenant_id}",
+        authority=f"https://login.microsoftonline.us/{aad_tenant_id}",
         token_cache=cache)
 
     click.echo(f'api_scope: {api_scope}')
@@ -257,7 +257,7 @@ def _get_auth_token_client_credentials(
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
         # Use Client Credentials flow
         payload = f"grant_type=client_credentials&client_id={client_id}&client_secret={client_secret}&scope={api_scope}/.default"
-        url = f"https://login.microsoftonline.com/{aad_tenant_id}/oauth2/v2.0/token"
+        url = f"https://login.microsoftonline.us/{aad_tenant_id}/oauth2/v2.0/token"
 
         log.debug("POSTing to token endpoint")
         response = client.post(url, headers=headers, content=payload)

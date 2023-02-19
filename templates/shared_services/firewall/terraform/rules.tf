@@ -142,7 +142,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "core" {
         "aka.ms",
         "management.azure.com",
         "graph.microsoft.us",
-        "login.microsoftonline.com",
+        "login.microsoftonline.us",
         "aadcdn.msftauth.net",
         "graph.windows.net",
         "keyserver.ubuntu.com",

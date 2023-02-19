@@ -43,12 +43,12 @@ async def get_workspace_auth_details(admin_token, workspace_id, verify) -> Tuple
         if config.TEST_ACCOUNT_CLIENT_ID != "" and config.TEST_ACCOUNT_CLIENT_SECRET != "":
             # Logging in as an Enterprise Application: Use Client Credentials flow
             payload = f"grant_type=client_credentials&client_id={config.TEST_ACCOUNT_CLIENT_ID}&client_secret={config.TEST_ACCOUNT_CLIENT_SECRET}&scope={scope_uri}/.default"
-            url = f"https://login.microsoftonline.com/{config.AAD_TENANT_ID}/oauth2/v2.0/token"
+            url = f"https://login.microsoftonline.us/{config.AAD_TENANT_ID}/oauth2/v2.0/token"
 
         else:
             # Logging in as a User: Use Resource Owner Password Credentials flow
             payload = f"grant_type=password&resource={workspace_id}&username={config.TEST_USER_NAME}&password={config.TEST_USER_PASSWORD}&scope={scope_uri}/user_impersonation&client_id={config.TEST_APP_ID}"
-            url = f"https://login.microsoftonline.com/{config.AAD_TENANT_ID}/oauth2/token"
+            url = f"https://login.microsoftonline.us/{config.AAD_TENANT_ID}/oauth2/token"
 
         response = await client.post(url, headers=auth_headers, content=payload)
         try:
