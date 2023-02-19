@@ -56,7 +56,7 @@ declare treUrl=""
 declare currentUserId=""
 declare automationAppId=""
 declare automationAppObjectId=""
-declare msGraphUri="https://graph.microsoft.com/v1.0"
+declare msGraphUri="https://graph.microsoft.us/v1.0"
 declare spPassword=""
 
 # Initialize parameters specified from command line

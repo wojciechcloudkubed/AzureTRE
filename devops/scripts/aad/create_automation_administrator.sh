@@ -32,7 +32,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 declare resetPassword=0
 declare currentUserId=""
-declare msGraphUri="https://graph.microsoft.com/v1.0"
+declare msGraphUri="https://graph.microsoft.us/v1.0"
 declare appName=""
 
 # Initialize parameters specified from command line

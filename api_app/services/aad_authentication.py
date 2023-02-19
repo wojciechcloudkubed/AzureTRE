@@ -187,7 +187,7 @@ class AzureADAuthorization(AccessService):
     # If there is no need to list all workspaces for a specific user, then Directory.ReadAll permissions are not required.
     @staticmethod
     def _get_msgraph_token() -> str:
-        scopes = ["https://graph.microsoft.com/.default"]
+        scopes = ["https://graph.microsoft.us/.default"]
         app = ConfidentialClientApplication(client_id=config.API_CLIENT_ID, client_credential=config.API_CLIENT_SECRET, authority=f"{config.AAD_INSTANCE}/{config.AAD_TENANT_ID}")
         result = app.acquire_token_silent(scopes=scopes, account=None)
         if not result:
@@ -206,15 +206,15 @@ class AzureADAuthorization(AccessService):
 
     @staticmethod
     def _get_service_principal_endpoint(client_id) -> str:
-        return f"https://graph.microsoft.com/v1.0/serviceprincipals?$filter=appid eq '{client_id}'"
+        return f"https://graph.microsoft.us/v1.0/serviceprincipals?$filter=appid eq '{client_id}'"
 
     @staticmethod
     def _get_service_principal_assigned_roles_endpoint(client_id) -> str:
-        return f"https://graph.microsoft.com/v1.0/serviceprincipals/{client_id}/appRoleAssignedTo?$select=appRoleId,principalId,principalType"
+        return f"https://graph.microsoft.us/v1.0/serviceprincipals/{client_id}/appRoleAssignedTo?$select=appRoleId,principalId,principalType"
 
     @staticmethod
     def _get_batch_endpoint() -> str:
-        return "https://graph.microsoft.com/v1.0/$batch"
+        return "https://graph.microsoft.us/v1.0/$batch"
 
     @staticmethod
     def _get_users_endpoint(user_object_id) -> str:
@@ -344,17 +344,17 @@ class AzureADAuthorization(AccessService):
         return graph_data
 
     def _get_role_assignment_graph_data_for_user(self, user_id: str) -> dict:
-        user_endpoint = f"https://graph.microsoft.com/v1.0/users/{user_id}/appRoleAssignments"
+        user_endpoint = f"https://graph.microsoft.us/v1.0/users/{user_id}/appRoleAssignments"
         graph_data = self._ms_graph_query(user_endpoint, "GET")
         return graph_data
 
     def _get_role_assignment_graph_data_for_service_principal(self, principal_id: str) -> dict:
-        svc_principal_endpoint = f"https://graph.microsoft.com/v1.0/servicePrincipals/{principal_id}/appRoleAssignments"
+        svc_principal_endpoint = f"https://graph.microsoft.us/v1.0/servicePrincipals/{principal_id}/appRoleAssignments"
         graph_data = self._ms_graph_query(svc_principal_endpoint, "GET")
         return graph_data
 
     def _get_identity_type(self, id: str) -> str:
-        objects_endpoint = "https://graph.microsoft.com/v1.0/directoryObjects/getByIds"
+        objects_endpoint = "https://graph.microsoft.us/v1.0/directoryObjects/getByIds"
         request_body = {"ids": [id], "types": ["user", "servicePrincipal"]}
         graph_data = self._ms_graph_query(objects_endpoint, "POST", json=request_body)
 

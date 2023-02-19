@@ -38,7 +38,7 @@ declare grantAdminConsent=0
 declare resetPassword=0
 declare currentUserId=""
 declare spId=""
-declare msGraphUri="https://graph.microsoft.com/v1.0"
+declare msGraphUri="https://graph.microsoft.us/v1.0"
 declare appName=""
 declare applicationPermission="Application.ReadWrite.OwnedBy"
 
