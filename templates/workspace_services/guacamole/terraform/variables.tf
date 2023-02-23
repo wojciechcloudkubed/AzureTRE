@@ -14,3 +14,4 @@ variable "guac_disable_upload" {}
 variable "is_exposed_externally" {}
 variable "tre_resource_id" {}
 variable "parent_ws_unique_identifier_suffix" {}
+variable "unique_identifier_suffix" {}

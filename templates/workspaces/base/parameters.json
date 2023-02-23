@@ -137,9 +137,9 @@
       }
     },
     {
-      "name": "is_legacy_shortened_ws_id",
+      "name": "workspace_unique_identifier_suffix",
       "source": {
-        "env": "IS_LEGACY_SHORTENED_WS_ID"
+        "env": "WORKSPACE_UNIQUE_IDENTIFIER_SUFFIX"
       }
     }
   ]

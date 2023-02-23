@@ -71,7 +71,7 @@
           {
             "name": "parent_ws_unique_identifier_suffix",
             "type": "string",
-            "value": "{{ parent_workspace.properties.unique_identifier_suffix }}"
+            "value": "{{ resource.parent.properties.unique_identifier_suffix }}"
           }
         ]
       },

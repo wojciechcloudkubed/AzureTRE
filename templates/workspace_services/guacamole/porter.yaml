@@ -102,6 +102,8 @@ parameters:
     default: false
   - name: parent_ws_unique_identifier_suffix
     type: string
+  - name: unique_identifier_suffix
+    type: string
 
 outputs:
   - name: connection_uri
@@ -117,6 +119,7 @@ outputs:
     applyTo:
       - install
   - name: unique_identifier_suffix
+    type: string
 
 mixins:
   - exec
@@ -143,6 +146,7 @@ install:
         is_exposed_externally: ${ bundle.parameters.is_exposed_externally }
         tre_resource_id: ${ bundle.parameters.id }
         parent_ws_unique_identifier_suffix: ${ bundle.parameters.parent_ws_unique_identifier_suffix }
+        unique_identifier_suffix: ${ bundle.parameters.unique_identifier_suffix }
       backendConfig:
         resource_group_name: ${ bundle.parameters.tfstate_resource_group_name }
         storage_account_name: ${ bundle.parameters.tfstate_storage_account_name }
@@ -174,6 +178,7 @@ upgrade:
         is_exposed_externally: ${ bundle.parameters.is_exposed_externally }
         tre_resource_id: ${ bundle.parameters.id }
         parent_ws_unique_identifier_suffix: ${ bundle.parameters.parent_ws_unique_identifier_suffix }
+        unique_identifier_suffix: ${ bundle.parameters.unique_identifier_suffix }
       backendConfig:
         resource_group_name: ${ bundle.parameters.tfstate_resource_group_name }
         storage_account_name: ${ bundle.parameters.tfstate_storage_account_name }
@@ -205,6 +210,7 @@ uninstall:
         is_exposed_externally: ${ bundle.parameters.is_exposed_externally }
         tre_resource_id: ${ bundle.parameters.id }
         parent_ws_unique_identifier_suffix: ${ bundle.parameters.parent_ws_unique_identifier_suffix }
+        unique_identifier_suffix: ${ bundle.parameters.unique_identifier_suffix }
       backendConfig:
         resource_group_name: ${ bundle.parameters.tfstate_resource_group_name }
         storage_account_name: ${ bundle.parameters.tfstate_storage_account_name }
