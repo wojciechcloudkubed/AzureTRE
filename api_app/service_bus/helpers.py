@@ -40,25 +40,35 @@ async def send_deployment_message(content, correlation_id, session_id, action):
     await _send_message(resource_request_message, config.SERVICE_BUS_RESOURCE_REQUEST_QUEUE)
 
 
-async def update_resource_for_step(operation_step: OperationStep, resource_repo: ResourceRepository, resource_template_repo: ResourceTemplateRepository, resource_history_repo: ResourceHistoryRepository, primary_resource: Resource, resource_to_update_id: str, primary_action: str, user: User) -> Resource:
-    # get the template for the primary resource, to get all the step details for substitutions
-    step_origin_resource = await resource_repo.get_resource_by_id(operation_step.parentResourceId)
-    step_origin_parent_service_name = ""
-    step_origin_parent_workspace = None
-    step_origin_parent_workspace_service = None
-    if step_origin_resource.resourceType == ResourceType.UserResource:
-        step_origin_parent_workspace_service = await resource_repo.get_resource_by_id(step_origin_resource.parentWorkspaceServiceId)
-        step_origin_parent_service_name = step_origin_parent_workspace_service.templateName
-        step_origin_parent_workspace = await resource_repo.get_resource_by_id(step_origin_resource.workspaceId)
+async def update_resource_for_step(operation_step: OperationStep, resource_repo: ResourceRepository, resource_template_repo: ResourceTemplateRepository, resource_history_repo: ResourceHistoryRepository, root_resource: Resource, step_resource: Resource, resource_to_update_id: str, primary_action: str, user: User) -> Resource:
+    # step_resource is the resource instance where the step was defined. e.g. 'add firewall rule' step defined in Guacamole template -> the step_resource is the Guacamole ws service.
+    # root_resource is theresource on which the user chose to update, i.e. the top most resource in cascaded action or the same resource in a non-cascaded action.
+    if step_resource is None:
+        step_resource = await resource_repo.get_resource_by_id(operation_step.parentResourceId)
 
-    if step_origin_resource.resourceType == ResourceType.WorkspaceService:
-        step_origin_parent_workspace = await resource_repo.get_resource_by_id(step_origin_resource.workspaceId)
+    # If we are handling the root resource, we can leverage the given resource which has non redacted properties
+    if root_resource is not None and root_resource.id == step_resource.id:
+        step_resource = root_resource
 
-    parent_template = await resource_template_repo.get_template_by_name_and_version(step_origin_resource.templateName, step_origin_resource.templateVersion, step_origin_resource.resourceType, step_origin_parent_service_name)
+    step_resource_parent_service_name = ""
+    step_resource_parent_workspace = None
+    step_resource_parent_workspace_service = None
+    if step_resource.resourceType == ResourceType.UserResource:
+        step_resource_parent_workspace_service = await resource_repo.get_resource_by_id(step_resource.parentWorkspaceServiceId)
+        step_resource_parent_service_name = step_resource_parent_workspace_service.templateName
+        step_resource_parent_workspace = await resource_repo.get_resource_by_id(step_resource.workspaceId)
+
+    if step_resource.resourceType == ResourceType.WorkspaceService:
+        step_resource_parent_workspace = await resource_repo.get_resource_by_id(step_resource.workspaceId)
+
+    parent_template = await resource_template_repo.get_template_by_name_and_version(step_resource.templateName, step_resource.templateVersion, step_resource.resourceType, step_resource_parent_service_name)
 
     # if there are no pipelines, no need to continue with substitutions.
     if parent_template.pipeline is None:
-        return primary_resource
+        return step_resource
+
+    if parent_template.pipeline.dict()[primary_action] is None:
+        return step_resource
 
     # get the template step
     template_step = None
@@ -68,7 +78,7 @@ async def update_resource_for_step(operation_step: OperationStep, resource_repo:
             break
 
     if template_step is None:
-        raise Exception(f"Cannot find step with id of {operation_step.stepId} in template {primary_resource.templateName} for action {primary_action}")
+        raise Exception(f"Cannot find step with id of {operation_step.stepId} in template {step_resource.templateName} for action {primary_action}")
 
     resource_to_send = await try_update_with_retries(
         num_retries=3,
@@ -79,9 +89,9 @@ async def update_resource_for_step(operation_step: OperationStep, resource_repo:
         user=user,
         resource_to_update_id=resource_to_update_id,
         template_step=template_step,
-        primary_resource=primary_resource,
-        primary_parent_workspace=step_origin_parent_workspace,
-        primary_parent_workspace_svc=step_origin_parent_workspace_service
+        primary_resource=step_resource,
+        primary_parent_workspace=step_resource_parent_workspace,
+        primary_parent_workspace_svc=step_resource_parent_workspace_service
     )
 
     return resource_to_send
@@ -113,7 +123,8 @@ async def try_update_with_retries(num_retries: int, attempt_count: int, resource
                 resource_to_update_id=resource_to_update_id,
                 template_step=template_step,
                 primary_resource=primary_resource,
-                primary_parent_workspace=primary_parent_workspace
+                primary_parent_workspace=primary_parent_workspace,
+                primary_parent_workspace_svc=primary_parent_workspace_svc
             )
         else:
             raise e
