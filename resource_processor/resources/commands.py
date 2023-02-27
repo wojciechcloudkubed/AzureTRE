@@ -15,11 +15,11 @@ def azure_login_command(config):
         # Use a Service Principal when running locally
         command = f"az login --service-principal --username {config['arm_client_id']} --password {config['arm_client_secret']} --tenant {config['arm_tenant_id']}"
 
-    return command
+    return "az cloud set --name AzureUSGovernment && " + command
 
 
 def azure_acr_login_command(config):
-    return f"az acr login --name {config['registry_server'].replace('.azurecr.io','')}"
+    return f"az acr login --name {config['registry_server'].replace('.azurecr.us','')}"
 
 
 async def build_porter_command(config, logger, msg_body, custom_action=False):
@@ -82,7 +82,8 @@ async def build_porter_command_for_outputs(msg_body):
 
 
 async def get_porter_parameter_keys(config, logger, msg_body):
-    command = [f"{azure_login_command(config)} >/dev/null && \
+    command = [f"az cloud set --name AzureUSGovernment && \
+        {azure_login_command(config)} >/dev/null && \
         {azure_acr_login_command(config)} >/dev/null && \
         porter explain --reference {config['registry_server']}/{msg_body['name']}:v{msg_body['version']} --output json"]
 
@@ -110,7 +111,7 @@ async def get_porter_parameter_keys(config, logger, msg_body):
 def get_special_porter_param_value(config, parameter_name: str, msg_body):
     # some parameters might not have identical names and this comes to handle that
     if parameter_name == "mgmt_acr_name":
-        return config["registry_server"].replace('.azurecr.io', '')
+        return config["registry_server"].replace('.azurecr.us', '')
     if parameter_name == "mgmt_resource_group_name":
         return config["tfstate_resource_group_name"]
     if parameter_name == "workspace_id":

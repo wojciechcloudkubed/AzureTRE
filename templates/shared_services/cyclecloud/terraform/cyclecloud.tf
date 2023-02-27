@@ -112,7 +112,7 @@ module "azure_region" {
 }
 
 resource "azurerm_private_dns_zone" "cyclecloud" {
-  name                = "cyclecloud-${var.tre_id}.${module.azure_region.location_cli}.cloudapp.azure.com"
+  name                = "cyclecloud-${var.tre_id}.${module.azure_region.location_cli}.cloudapp.usgovcloudapi.net"
   resource_group_name = local.core_resource_group_name
   tags                = local.tre_shared_service_tags
 

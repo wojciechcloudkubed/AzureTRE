@@ -52,6 +52,8 @@ def get_config(logger_adapter) -> dict:
         "ARM_CLIENT_SECRET": config["arm_client_secret"],
         "ARM_SUBSCRIPTION_ID": config["arm_subscription_id"],
         "ARM_TENANT_ID": config["arm_tenant_id"],
+        "ARM_ENVIRONMENT": "usgovernment",
+        "AZURE_ENVIRONMENT": "AzureUSGovernment"
     }
 
     if config["arm_use_msi"] == "false":

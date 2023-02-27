@@ -28,7 +28,7 @@ docker_cache=("--cache-from" "${FULL_IMAGE_NAME_PREFIX}/${image_name}:${version}
 
 if [ -n "${CI_CACHE_ACR_NAME:-}" ]; then
 	az acr login -n "${CI_CACHE_ACR_NAME}"
-	docker_cache+=("--cache-from" "${CI_CACHE_ACR_NAME}.azurecr.io/${IMAGE_NAME_PREFIX}/${image_name}:${version}")
+	docker_cache+=("--cache-from" "${CI_CACHE_ACR_NAME}.azurecr.us/${IMAGE_NAME_PREFIX}/${image_name}:${version}")
 fi
 
 docker build --build-arg BUILDKIT_INLINE_CACHE=1 \

@@ -240,7 +240,7 @@ jobs:
 
           USER_UID=$(id -u)
           USER_GID=$(id -g)
-          CI_CACHE_ACR_URI=${{ secrets.CI_CACHE_ACR_NAME }}.azurecr.io
+          CI_CACHE_ACR_URI=${{ secrets.CI_CACHE_ACR_NAME }}.azurecr.us
           echo "CI_CACHE_ACR_URI=$CI_CACHE_ACR_URI" >> "$GITHUB_ENV"
 
           docker_cache=()

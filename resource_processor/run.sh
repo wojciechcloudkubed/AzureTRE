@@ -31,6 +31,11 @@ plugin = "azure.keyvault"
 vault = "${KEY_VAULT_NAME}"
 EOF
 
+AZURE_ENVIRONMENT=AzureUSGovernment
+export AZURE_ENVIRONMENT
+
+az cloud set --name $AZURE_ENVIRONMENT
+
 # TODO: Remove porter v0 https://github.com/microsoft/AzureTRE/issues/2990
 echo "Azure cli login..."
 az login --identity -u "${VMSS_MSI_ID}"
@@ -54,8 +59,8 @@ else
   echo "Porter v0 state doesn't exist."
 fi
 
-echo "Azure cli logout..."
-az logout
+# echo "Azure cli logout..."
+# az logout
 
 # Can't be in the image since DB connection is needed.
 echo "Applying credential sets..."

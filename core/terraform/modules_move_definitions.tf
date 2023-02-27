@@ -241,12 +241,12 @@ moved {
 
 moved {
   from = module.network.azurerm_private_dns_zone.azureml
-  to   = azurerm_private_dns_zone.non_core["privatelink.api.azureml.us"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.api.ml.azure.us"]
 }
 
 moved {
   from = module.network.azurerm_private_dns_zone.azuremlcert
-  to   = azurerm_private_dns_zone.non_core["privatelink.cert.api.azureml.ms"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.cert.api.ml.azure.us"]
 }
 
 moved {
@@ -256,7 +256,7 @@ moved {
 
 moved {
   from = module.network.azurerm_private_dns_zone.postgres
-  to   = azurerm_private_dns_zone.non_core["privatelink.postgres.database.azure.com"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.postgres.database.usgovcloudapi.net"]
 }
 
 moved {
@@ -275,18 +275,13 @@ moved {
 }
 
 moved {
-  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.sql.azuresynapse.net"]
-  to   = azurerm_private_dns_zone.non_core["privatelink.sql.azuresynapse.net"]
+  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.sql.azuresynapse.usgovcloudapi.net"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.sql.azuresynapse.usgovcloudapi.net"]
 }
 
 moved {
-  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.dev.azuresynapse.net"]
-  to   = azurerm_private_dns_zone.non_core["privatelink.dev.azuresynapse.net"]
-}
-
-moved {
-  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.azuresynapse.net"]
-  to   = azurerm_private_dns_zone.non_core["privatelink.azuresynapse.net"]
+  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.dev.azuresynapse.usgovcloudapi.net"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.dev.azuresynapse.usgovcloudapi.net"]
 }
 
 moved {
@@ -295,16 +290,21 @@ moved {
 }
 
 moved {
-  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.dfs.core.windows.net"]
-  to   = azurerm_private_dns_zone.non_core["privatelink.dfs.core.windows.net"]
+  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.azuresynapse.net"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.azuresynapse.net"]
 }
 
 moved {
-  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.azurehealthcareapis.com"]
-  to   = azurerm_private_dns_zone.non_core["privatelink.azurehealthcareapis.com"]
+  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.dfs.core.usgovcloudapi.net"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.dfs.core.usgovcloudapi.net"]
 }
 
 moved {
-  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.dicom.azurehealthcareapis.com"]
-  to   = azurerm_private_dns_zone.non_core["privatelink.dicom.azurehealthcareapis.com"]
+  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.azurehealthcareapis.us"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.azurehealthcareapis.us"]
+}
+
+moved {
+  from = module.network.azurerm_private_dns_zone.private_dns_zones["privatelink.dicom.azurehealthcareapis.us"]
+  to   = azurerm_private_dns_zone.non_core["privatelink.dicom.azurehealthcareapis.us"]
 }

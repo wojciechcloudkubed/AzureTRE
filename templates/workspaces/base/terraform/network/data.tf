@@ -54,7 +54,7 @@ data "azurerm_private_dns_zone" "blobcore" {
 }
 
 data "azurerm_private_dns_zone" "dfscore" {
-  name                = "privatelink.dfs.core.windows.net"
+  name                = "privatelink.dfs.core.usgovcloudapi.net"
   resource_group_name = local.core_resource_group_name
 }
 
@@ -64,17 +64,17 @@ data "azurerm_private_dns_zone" "vaultcore" {
 }
 
 data "azurerm_private_dns_zone" "azurecr" {
-  name                = "privatelink.azurecr.io"
+  name                = "privatelink.azurecr.us"
   resource_group_name = local.core_resource_group_name
 }
 
 data "azurerm_private_dns_zone" "azureml" {
-  name                = "privatelink.api.azureml.us"
+  name                = "privatelink.api.ml.azure.us"
   resource_group_name = local.core_resource_group_name
 }
 
 data "azurerm_private_dns_zone" "azuremlcert" {
-  name                = "privatelink.cert.api.azureml.ms"
+  name                = "privatelink.cert.api.ml.azure.us"
   resource_group_name = local.core_resource_group_name
 }
 
@@ -89,26 +89,26 @@ data "azurerm_private_dns_zone" "mysql" {
 }
 
 data "azurerm_private_dns_zone" "postgres" {
-  name                = "privatelink.postgres.database.database.usgovcloudapi.net"
+  name                = "privatelink.postgres.database.usgovcloudapi.net"
   resource_group_name = local.core_resource_group_name
 }
 
 data "azurerm_private_dns_zone" "nexus" {
-  name                = "nexus-${var.tre_id}.${var.location}.cloudapp.azure.com"
+  name                = "nexus-${var.tre_id}.${var.location}.cloudapp.usgovcloudapi.net"
   resource_group_name = local.core_resource_group_name
 }
 
 data "azurerm_private_dns_zone" "health" {
-  name                = "privatelink.azurehealthcareapis.com"
+  name                = "privatelink.azurehealthcareapis.us"
   resource_group_name = local.core_resource_group_name
 }
 
 data "azurerm_private_dns_zone" "dicom" {
-  name                = "privatelink.dicom.azurehealthcareapis.com"
+  name                = "privatelink.dicom.azurehealthcareapis.us"
   resource_group_name = local.core_resource_group_name
 }
 
 data "azurerm_private_dns_zone" "databricks" {
-  name                = "privatelink.azuredatabricks.net"
+  name                = "privatelink.databricks.azure.us"
   resource_group_name = local.core_resource_group_name
 }

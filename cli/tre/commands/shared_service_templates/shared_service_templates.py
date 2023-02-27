@@ -41,7 +41,6 @@ def shared_service_templates_create(definition, definition_file, output_format, 
         definition = definition_file.read()
 
     definition_dict = json.loads(definition)
-
     client = ApiClient.get_api_client_from_config()
     click.echo("Registering template...", err=True)
     response = client.call_api(log, 'POST', '/api/shared-service-templates', json_data=definition_dict)

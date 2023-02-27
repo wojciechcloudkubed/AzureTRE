@@ -18,7 +18,7 @@ resource "azurerm_healthcare_fhir_service" "fhir" {
 
   authentication {
     authority = "https://login.microsoftonline.us/${local.aad_tenant_id}"
-    audience  = "https://hs${local.service_resource_name_suffix}-fhir${local.service_resource_name_suffix}.fhir.azurehealthcareapis.com"
+    audience  = "https://hs${local.service_resource_name_suffix}-fhir${local.service_resource_name_suffix}.fhir.azurehealthcareapis.us"
   }
 
   identity {

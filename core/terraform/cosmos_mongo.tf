@@ -55,7 +55,7 @@ resource "azurerm_management_lock" "mongo" {
 }
 
 resource "azurerm_private_dns_zone" "mongo" {
-  name                = "privatelink.mongo.cosmos.azure.com"
+  name                = "privatelink.mongo.cosmos.azure.us"
   resource_group_name = azurerm_resource_group.core.name
   tags                = local.tre_core_tags
   lifecycle { ignore_changes = [tags] }

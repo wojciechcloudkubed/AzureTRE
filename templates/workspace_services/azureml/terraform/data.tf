@@ -34,12 +34,12 @@ data "azurerm_route_table" "rt" {
 }
 
 data "azurerm_private_dns_zone" "azureml" {
-  name                = "privatelink.api.azureml.us"
+  name                = "privatelink.api.ml.azure.us"
   resource_group_name = local.core_resource_group_name
 }
 
 data "azurerm_private_dns_zone" "azuremlcert" {
-  name                = "privatelink.cert.api.azureml.ms"
+  name                = "privatelink.cert.api.ml.azure.us"
   resource_group_name = local.core_resource_group_name
 }
 

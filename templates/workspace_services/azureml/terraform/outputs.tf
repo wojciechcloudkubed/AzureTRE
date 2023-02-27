@@ -11,11 +11,11 @@ output "azureml_storage_account_id" {
 }
 
 output "connection_uri" {
-  value = var.is_exposed_externally ? "https://ml.azure.com/?wsid=${azurerm_machine_learning_workspace.aml_workspace.id}&tid=${var.arm_tenant_id}" : ""
+  value = var.is_exposed_externally ? "https://ml.azure.us/?wsid=${azurerm_machine_learning_workspace.aml_workspace.id}&tid=${var.arm_tenant_id}" : ""
 }
 
 output "internal_connection_uri" {
-  value = var.is_exposed_externally ? "" : "https://ml.azure.com/?wsid=${azurerm_machine_learning_workspace.aml_workspace.id}&tid=${var.arm_tenant_id}"
+  value = var.is_exposed_externally ? "" : "https://ml.azure.us/?wsid=${azurerm_machine_learning_workspace.aml_workspace.id}&tid=${var.arm_tenant_id}"
 }
 
 output "workspace_address_spaces" {

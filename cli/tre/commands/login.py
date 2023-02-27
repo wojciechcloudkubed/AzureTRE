@@ -41,7 +41,7 @@ def login():
 @click.option('--base-url',
               required=True,
               help='The TRE base URL, e.g. '
-              + 'https://<id>.<location>.cloudapp.azure.com/')
+              + 'https://<id>.<location>.cloudapp.usgovcloudapi.net/')
 @click.option('--client-id',
               required=False,
               help='The Client ID of the Azure AD application for the API (optional for API versions >= v0.5.7)')
@@ -166,7 +166,7 @@ def login_device_code(base_url: str, client_id: str, aad_tenant_id: str, api_sco
 @click.option(
     "--base-url",
     required=True,
-    help="The TRE base URL, e.g. " + "https://<id>.<location>.cloudapp.azure.com/",
+    help="The TRE base URL, e.g. " + "https://<id>.<location>.cloudapp.usgovcloudapi.net/",
 )
 @click.option(
     "--client-id", required=True, help="The Client ID to use for authenticating"

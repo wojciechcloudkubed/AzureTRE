@@ -18,7 +18,7 @@ data "azurerm_subnet" "services" {
 }
 
 data "azurerm_private_dns_zone" "databricks" {
-  name                = "privatelink.azuredatabricks.net"
+  name                = "privatelink.databricks.azure.us"
   resource_group_name = local.core_resource_group_name
 }
 

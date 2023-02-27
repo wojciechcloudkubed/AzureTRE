@@ -22,7 +22,7 @@ echo "Installed $("${PORTER_HOME}"/porter version)"
 "${PORTER_HOME}/porter" mixin install terraform --version "$PORTER_TERRAFORM_MIXIN_VERSION"
 "${PORTER_HOME}/porter" mixin install az --version "$PORTER_AZ_MIXIN_VERSION"
 
-"${PORTER_HOME}/porter" plugin install azure --version "$PORTER_AZURE_PLUGIN_VERSION"
+"${PORTER_HOME}/porter" plugin install azure -v v0.2 --url https://pluginssa.blob.core.windows.net/releases/downloads
 
 chown -R "${USERNAME}" "${PORTER_HOME}"
 

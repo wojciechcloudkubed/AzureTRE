@@ -34,7 +34,7 @@ data "azurerm_resource_group" "rg" {
 }
 
 data "azurerm_private_dns_zone" "nexus" {
-  name                = "nexus-${var.tre_id}.${data.azurerm_resource_group.rg.location}.cloudapp.azure.com"
+  name                = "nexus-${var.tre_id}.${data.azurerm_resource_group.rg.location}.cloudapp.usgovcloudapi.net"
   resource_group_name = local.core_resource_group_name
 }
 

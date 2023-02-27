@@ -34,7 +34,6 @@ def shared_service_template_show(shared_service_template_context: SharedServiceT
         raise click.UsageError('Missing template name')
 
     client = ApiClient.get_api_client_from_config()
-
     response = client.call_api(
         log,
         'GET',

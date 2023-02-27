@@ -8,7 +8,7 @@ locals {
     "AppServiceHTTPLogs", "AppServiceConsoleLogs", "AppServiceAppLogs", "AppServiceFileAuditLogs",
     "AppServiceAuditLogs", "AppServiceIPSecAuditLogs", "AppServicePlatformLogs", "AppServiceAntivirusScanAuditLogs"
   ]
-  docker_registry_server = "${var.acr_name}.azurecr.io"
+  docker_registry_server = "${var.acr_name}.azurecr.us"
 
   # https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall#allow-requests-from-the-azure-portal
   azure_portal_cosmos_ips = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
@@ -18,18 +18,18 @@ locals {
   private_dns_zone_names_non_core = toset([
     "privatelink.purview.azure.com",
     "privatelink.purviewstudio.azure.com",
-    "privatelink.sql.azuresynapse.net",
-    "privatelink.dev.azuresynapse.net",
+    "privatelink.sql.azuresynapse.usgovcloudapi.net",
+    "privatelink.dev.azuresynapse.usgovcloudapi.net",
     "privatelink.azuresynapse.net",
-    "privatelink.dfs.core.windows.net",
-    "privatelink.azurehealthcareapis.com",
-    "privatelink.dicom.azurehealthcareapis.com",
-    "privatelink.api.azureml.us",
-    "privatelink.cert.api.azureml.ms",
+    "privatelink.dfs.core.usgovcloudapi.net",
+    "privatelink.azurehealthcareapis.us",
+    "privatelink.dicom.azurehealthcareapis.us",
+    "privatelink.api.ml.azure.us",
+    "privatelink.cert.api.ml.azure.us",
     "privatelink.notebooks.usgovcloudapi.net",
     "privatelink.postgres.database.usgovcloudapi.net",
-    "nexus-${var.tre_id}.${var.location}.cloudapp.azure.com",
+    "nexus-${var.tre_id}.${var.location}.cloudapp.usgovcloudapi.net",
     "privatelink.mysql.database.usgovcloudapi.net",
-    "privatelink.azuredatabricks.net"
+    "privatelink.databricks.azure.us"
   ])
 }

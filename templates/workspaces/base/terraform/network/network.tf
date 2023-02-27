@@ -81,7 +81,7 @@ resource "null_resource" "az_login_sp" {
 
   count = var.arm_use_msi == true ? 0 : 1
   provisioner "local-exec" {
-    command = "az login --service-principal --username ${var.arm_client_id} --password ${var.arm_client_secret} --tenant ${var.arm_tenant_id}"
+    command = "az cloud set --name AzureUSGovernment && az login --service-principal --username ${var.arm_client_id} --password ${var.arm_client_secret} --tenant ${var.arm_tenant_id}"
   }
 
   triggers = {
@@ -94,7 +94,7 @@ resource "null_resource" "az_login_msi" {
 
   count = var.arm_use_msi == true ? 1 : 0
   provisioner "local-exec" {
-    command = "az login --identity -u '${data.azurerm_client_config.current.client_id}'"
+    command = "az cloud set --name AzureUSGovernment && az login --identity -u '${data.azurerm_client_config.current.client_id}'"
   }
 
   triggers = {

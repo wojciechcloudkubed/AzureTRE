@@ -225,9 +225,9 @@ spPassword=$(create_or_update_service_principal "${appId}" "${resetPassword}")
 spId=$(az ad sp list --filter "appId eq '${appId}'" --query '[0].id' --output tsv --only-show-errors)
 
 # needed to make the API permissions change effective, this must be done after SP creation...
-echo
-echo "Running 'az ad app permission grant' to make changes effective."
-az ad app permission grant --id "$spId" --api "$msGraphObjectId" --scope "email openid profile"  --only-show-errors
+# echo
+# echo "Running 'az ad app permission grant' to make changes effective."
+# az ad app permission grant --id "$spId" --api "$msGraphObjectId" --scope "email openid profile"  --only-show-errors
 
 # Grant admin consent on the required resource accesses (Graph API)
 if [[ $grantAdminConsent -eq 1 ]]; then
@@ -305,9 +305,9 @@ fi
 az ad app owner add --id "${uxAppId}" --owner-object-id "${currentUserId}" --only-show-errors
 az ad app owner add --id "${uxAppId}" --owner-object-id "${uxSpId}" --only-show-errors
 
-echo "Granting delegated access for \"${uxAppName}\" (service principal ID ${uxSpId})"
-az ad app permission grant --id "$uxSpId" --api "$msGraphObjectId" --scope "offline_access openid"  --only-show-errors
-az ad app permission grant --id "$uxSpId" --api "$appId" --scope "user_impersonation" --only-show-errors
+# echo "Granting delegated access for \"${uxAppName}\" (service principal ID ${uxSpId})"
+# az ad app permission grant --id "$uxSpId" --api "$msGraphObjectId" --scope "offline_access openid"  --only-show-errors
+# az ad app permission grant --id "$uxSpId" --api "$appId" --scope "user_impersonation" --only-show-errors
 
 if [[ -n ${automationAppId} ]]; then
   existingAutomationApp=$(get_existing_app --id "${automationAppId}")

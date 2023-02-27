@@ -7,9 +7,12 @@ terraform {
     }
   }
 
-  backend "azurerm" {}
+  backend "azurerm" {
+    environment     = "usgovernment"
+  }
 }
 
 provider "azurerm" {
+  environment     = "usgovernment"
   features {}
 }

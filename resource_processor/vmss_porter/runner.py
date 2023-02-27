@@ -18,6 +18,7 @@ from azure.servicebus import ServiceBusMessage, NEXT_AVAILABLE_SESSION
 from azure.servicebus.exceptions import OperationTimeoutError, ServiceBusConnectionError
 from azure.servicebus.aio import ServiceBusClient, AutoLockRenewer
 from azure.identity.aio import DefaultAzureCredential
+from azure.identity import AzureAuthorityHosts
 
 
 def set_up_logger(enable_console_logging: bool) -> logging.LoggerAdapter:
@@ -41,7 +42,7 @@ async def default_credentials(msi_id):
     """
     Context manager which yields the default credentials.
     """
-    credential = DefaultAzureCredential(managed_identity_client_id=msi_id) if msi_id else DefaultAzureCredential()
+    credential = DefaultAzureCredential(managed_identity_client_id=msi_id, authority=AzureAuthorityHosts.AZURE_GOVERNMENT) if msi_id else DefaultAzureCredential(authority=AzureAuthorityHosts.AZURE_GOVERNMENT)
     yield credential
     await credential.close()
 
@@ -103,8 +104,9 @@ async def run_porter(command, logger_adapter: logging.LoggerAdapter, config: dic
     """
     Run a Porter command
     """
+    command = ''.join(command)
     proc = await asyncio.create_subprocess_shell(
-        ''.join(command),
+        command,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
         env=config["porter_env"])

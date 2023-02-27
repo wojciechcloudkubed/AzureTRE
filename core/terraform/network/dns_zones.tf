@@ -26,7 +26,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "azure_monitor" {
 }
 
 resource "azurerm_private_dns_zone" "azure_monitor_oms_opinsights" {
-  name                = "privatelink.oms.opinsights.azure.com"
+  name                = "privatelink.oms.opinsights.azure.us"
   resource_group_name = var.resource_group_name
   tags                = local.tre_core_tags
 
@@ -161,7 +161,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vaultcore" {
 }
 
 resource "azurerm_private_dns_zone" "azurecr" {
-  name                = "privatelink.azurecr.io"
+  name                = "privatelink.azurecr.us"
   resource_group_name = var.resource_group_name
   tags                = local.tre_core_tags
   lifecycle { ignore_changes = [tags] }
@@ -177,7 +177,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "acrlink" {
 }
 
 resource "azurerm_private_dns_zone" "eventgrid" {
-  name                = "privatelink.eventgrid.azure.net"
+  name                = "privatelink.eventgrid.azure.us"
   resource_group_name = var.resource_group_name
   tags                = local.tre_core_tags
 

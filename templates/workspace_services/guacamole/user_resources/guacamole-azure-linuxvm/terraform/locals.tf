@@ -14,7 +14,7 @@ locals {
     tre_workspace_service_id = var.parent_service_id
     tre_user_resource_id     = var.tre_resource_id
   }
-  nexus_proxy_url = "https://nexus-${var.tre_id}.${data.azurerm_resource_group.core.location}.cloudapp.azure.com"
+  nexus_proxy_url = "https://nexus-${var.tre_id}.${data.azurerm_resource_group.core.location}.cloudapp.usgovcloudapi.net"
 
   # Load VM SKU/image details from porter.yaml
   porter_yaml   = yamldecode(file("${path.module}/../porter.yaml"))

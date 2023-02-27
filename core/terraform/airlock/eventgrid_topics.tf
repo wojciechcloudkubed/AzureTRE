@@ -1,5 +1,5 @@
 data "azurerm_private_dns_zone" "eventgrid" {
-  name                = "privatelink.eventgrid.azure.net"
+  name                = "privatelink.eventgrid.azure.us"
   resource_group_name = var.resource_group_name
 }
 
