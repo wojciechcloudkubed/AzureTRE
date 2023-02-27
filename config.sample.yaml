@@ -10,7 +10,7 @@ management:
   acr_name: __CHANGE_ME__
   # Azure Resource Manager credentials used for CI/CD pipelines
   arm_subscription_id: __CHANGE_ME__
-
+  arm_environment: usgovernment
   # If you want to override the currently signed in credentials
   # You would do this if running commands like `make terraform-install DIR=./templates/workspaces/base`
   # arm_tenant_id: __CHANGE_ME__
