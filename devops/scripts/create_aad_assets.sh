@@ -36,7 +36,6 @@ fi
 # Create the identity that is able to administer other applications
 "$DIR/aad/create_application_administrator.sh" \
   --name "${TRE_ID}" \
-  --admin-consent \
   --application-permission "${APPLICATION_PERMISSION}" \
   --reset-password $RESET_PASSWORDS
 
@@ -54,7 +53,7 @@ fi
 "$DIR/aad/create_api_application.sh" \
   --name "${TRE_ID}" \
   --tre-url "https://${TRE_ID}.${LOCATION}.cloudapp.usgovcloudapi.net" \
-  --admin-consent --automation-clientid "${TEST_ACCOUNT_CLIENT_ID}" \
+  --automation-clientid "${TEST_ACCOUNT_CLIENT_ID}" \
   --reset-password $RESET_PASSWORDS
 
 if [ "${AUTO_WORKSPACE_APP_REGISTRATION:=false}" == false ]; then
@@ -66,7 +65,6 @@ if [ "${AUTO_WORKSPACE_APP_REGISTRATION:=false}" == false ]; then
   "$DIR/aad/create_workspace_application.sh" \
     --name "${TRE_ID} - workspace 1" \
     --ux-clientid "${SWAGGER_UI_CLIENT_ID}" \
-    --admin-consent \
     --automation-clientid "${TEST_ACCOUNT_CLIENT_ID}" \
     --application-admin-clientid "${APPLICATION_ADMIN_CLIENT_ID}" \
     --reset-password $RESET_PASSWORDS
