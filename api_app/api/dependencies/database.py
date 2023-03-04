@@ -45,7 +45,7 @@ async def get_store_key(credential) -> str:
             base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager,
             credential_scopes=[
                 AZURE_US_GOV_CLOUD.endpoints.resource_manager + ".default"
-            ],
+            ]
         ) as cosmosdb_mng_client:
             logging.exception("got cosmos client")
             database_keys = await cosmosdb_mng_client.database_accounts.list_keys(

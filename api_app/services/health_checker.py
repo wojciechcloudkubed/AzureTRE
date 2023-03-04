@@ -5,8 +5,12 @@ from azure.cosmos.aio import CosmosClient
 from azure.servicebus.aio import ServiceBusClient
 from azure.mgmt.compute.aio import ComputeManagementClient
 from azure.cosmos.exceptions import CosmosHttpResponseError
-from azure.servicebus.exceptions import ServiceBusConnectionError, ServiceBusAuthenticationError
+from azure.servicebus.exceptions import (
+    ServiceBusConnectionError,
+    ServiceBusAuthenticationError,
+)
 from api.dependencies.database import get_store_key
+from msrestazure.azure_cloud import AZURE_US_GOV_CLOUD
 
 from core import config
 from models.schemas.status import StatusEnum
@@ -19,7 +23,9 @@ async def create_state_store_status(credential) -> Tuple[StatusEnum, str]:
     debug = True if config.DEBUG == "true" else False
     try:
         primary_master_key = await get_store_key(credential)
-        cosmos_client = CosmosClient(config.STATE_STORE_ENDPOINT, primary_master_key, connection_verify=debug)
+        cosmos_client = CosmosClient(
+            config.STATE_STORE_ENDPOINT, primary_master_key, connection_verify=debug
+        )
         async with cosmos_client:
             list_databases_response = cosmos_client.list_databases()
             [database async for database in list_databases_response]
@@ -40,9 +46,13 @@ async def create_service_bus_status(credential) -> Tuple[StatusEnum, str]:
     status = StatusEnum.ok
     message = ""
     try:
-        service_bus_client = ServiceBusClient(config.SERVICE_BUS_FULLY_QUALIFIED_NAMESPACE, credential, retry_total=0)
+        service_bus_client = ServiceBusClient(
+            config.SERVICE_BUS_FULLY_QUALIFIED_NAMESPACE, credential, retry_total=0
+        )
         async with service_bus_client:
-            receiver = service_bus_client.get_queue_receiver(queue_name=config.SERVICE_BUS_STEP_RESULT_QUEUE)
+            receiver = service_bus_client.get_queue_receiver(
+                queue_name=config.SERVICE_BUS_STEP_RESULT_QUEUE
+            )
             async with receiver:
                 pass
     except ServiceBusConnectionError:
@@ -63,11 +73,22 @@ async def create_resource_processor_status(credential) -> Tuple[StatusEnum, str]
     message = ""
     try:
         vmss_name = f"vmss-rp-porter-{config.TRE_ID}"
-        compute_client = ComputeManagementClient(credential=credential, subscription_id=config.SUBSCRIPTION_ID)
+        compute_client = ComputeManagementClient(
+            credential=credential,
+            subscription_id=config.SUBSCRIPTION_ID,
+            base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager,
+            credential_scopes=[
+                AZURE_US_GOV_CLOUD.endpoints.resource_manager + ".default"
+            ]
+        )
         async with compute_client:
-            vmss_list = compute_client.virtual_machine_scale_set_vms.list(config.RESOURCE_GROUP_NAME, vmss_name)
+            vmss_list = compute_client.virtual_machine_scale_set_vms.list(
+                config.RESOURCE_GROUP_NAME, vmss_name
+            )
             async for vm in vmss_list:
-                instance_view = await compute_client.virtual_machine_scale_set_vms.get_instance_view(config.RESOURCE_GROUP_NAME, vmss_name, vm.instance_id)
+                instance_view = await compute_client.virtual_machine_scale_set_vms.get_instance_view(
+                    config.RESOURCE_GROUP_NAME, vmss_name, vm.instance_id
+                )
                 health_status = instance_view.vm_health.status.code
                 if health_status != strings.RESOURCE_PROCESSOR_HEALTHY_MESSAGE:
                     status = StatusEnum.not_ok
