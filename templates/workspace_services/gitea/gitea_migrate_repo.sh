@@ -49,7 +49,7 @@ keyVaultName="kv-$tre_id"
 tokenSecretName="gitea-$tre_id-admin-token"
 pwdSecretName="gitea-$tre_id-administrator-password"
 
-giteaUrl="https://gitea-$tre_id.azurewebsites.net"
+giteaUrl="https://gitea-$tre_id.azurewebsites.us"
 
 # Check if access token exists
 tokenExists=$(az keyvault secret list --vault-name "$keyVaultName" --query "contains([].id, 'https://$keyVaultName.vault.azure.net/secrets/$tokenSecretName')")

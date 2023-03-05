@@ -35,7 +35,7 @@ resource "azurerm_linux_web_app" "gitea" {
     GITEA_PASSWD   = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.gitea_password.id})"
     GITEA_EMAIL    = "giteaadmin@azuretre.com"
 
-    GITEA__server__ROOT_URL              = "https://${local.webapp_name}.azurewebsites.net/"
+    GITEA__server__ROOT_URL              = "https://${local.webapp_name}.azurewebsites.us/"
     GITEA__server__LFS_START_SERVER      = "true"
     GITEA__lfs__PATH                     = "/data/lfs"
     GITEA__lfs__STORAGE_TYPE             = "local"

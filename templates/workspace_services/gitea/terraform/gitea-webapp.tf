@@ -41,7 +41,7 @@ resource "azurerm_linux_web_app" "gitea" {
     GITEA_OPENID_CLIENT_ID                           = data.azurerm_key_vault_secret.client_id.value
     GITEA_OPENID_CLIENT_SECRET                       = data.azurerm_key_vault_secret.client_secret.value
     GITEA_OPENID_AUTHORITY                           = "https://login.microsoftonline.us/${data.azurerm_key_vault_secret.aad_tenant_id.value}/v2.0"
-    GITEA__server__ROOT_URL                          = "https://${local.webapp_name}.azurewebsites.net/"
+    GITEA__server__ROOT_URL                          = "https://${local.webapp_name}.azurewebsites.us/"
     GITEA__server__LFS_START_SERVER                  = "true"
     GITEA__server__OFFLINE_MODE                      = true
     GITEA__lfs__PATH                                 = "/data/gitea/lfs"
