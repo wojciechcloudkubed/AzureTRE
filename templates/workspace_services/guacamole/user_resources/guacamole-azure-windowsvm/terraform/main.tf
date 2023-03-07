@@ -15,10 +15,12 @@ terraform {
     }
   }
   backend "azurerm" {
+    environment = "usgovernment"
   }
 }
 
 provider "azurerm" {
+  environment = "usgovernment"
   features {
     key_vault {
       # Don't purge on destroy (this would fail due to purge protection being enabled on keyvault)
