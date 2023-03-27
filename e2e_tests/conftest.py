@@ -42,7 +42,7 @@ async def create_or_get_test_workspace(
     if pre_created_workspace_id != "":
         return f"/workspaces/{pre_created_workspace_id}", pre_created_workspace_id
 
-    LOGGER.info(f"Creating workspace {template_name}")
+    LOGGER.info(f"Creating workspace {template_name} with auth_type {auth_type}")
 
     description = " ".join([x.capitalize() for x in template_name.split("-")[2:]])
     payload = {
@@ -70,11 +70,13 @@ async def create_or_get_test_workspace(
     return workspace_path, workspace_id
 
 
-async def create_or_get_test_workpace_service(workspace_path, workspace_owner_token, pre_created_workspace_service_id, verify):
+async def create_or_get_guacamole_test_workpace_service(workspace_path, workspace_owner_token, pre_created_workspace_service_id, verify):
     if pre_created_workspace_service_id != "":
         workspace_service_id = pre_created_workspace_service_id
         workspace_service_path = f"{workspace_path}/{resource_strings.API_WORKSPACE_SERVICES}/{workspace_service_id}"
         return workspace_service_path, workspace_service_id
+
+    LOGGER.info(f"Creating workspace_service {resource_strings.GUACAMOLE_SERVICE}")
 
     # create a guac service
     service_payload = {
@@ -129,7 +131,7 @@ async def setup_test_workspace_and_guacamole_service(setup_test_workspace, verif
     workspace_owner_token = await get_workspace_owner_token(workspace_id, verify)
 
     pre_created_workspace_service_id = config.TEST_WORKSPACE_SERVICE_ID
-    workspace_service_path, workspace_service_id = await create_or_get_test_workpace_service(
+    workspace_service_path, workspace_service_id = await create_or_get_guacamole_test_workpace_service(
         workspace_path,
         workspace_owner_token=workspace_owner_token,
         pre_created_workspace_service_id=pre_created_workspace_service_id,
@@ -180,7 +182,7 @@ async def setup_test_airlock_import_review_workspace_and_guacamole_service(verif
     workspace_owner_token, _ = await get_workspace_auth_details(admin_token=admin_token, workspace_id=workspace_id, verify=verify)
     pre_created_workspace_service_id = config.TEST_AIRLOCK_IMPORT_REVIEW_WORKSPACE_SERVICE_ID
 
-    workspace_service_path, workspace_service_id = await create_or_get_test_workpace_service(
+    workspace_service_path, workspace_service_id = await create_or_get_guacamole_test_workpace_service(
         workspace_path,
         workspace_owner_token=workspace_owner_token,
         pre_created_workspace_service_id=pre_created_workspace_service_id,
