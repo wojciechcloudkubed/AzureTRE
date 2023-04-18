@@ -118,7 +118,7 @@ async def setup_test_workspace(verify) -> Tuple[str, str, str]:
     yield workspace_path, workspace_id
 
     # Tear-down
-    await clean_up_test_workspace(pre_created_workspace_id=pre_created_workspace_id, workspace_path=workspace_path, verify=verify)
+    # await clean_up_test_workspace(pre_created_workspace_id=pre_created_workspace_id, workspace_path=workspace_path, verify=verify)
 
 
 # Session scope isn't in effect with python-xdist: https://github.com/microsoft/AzureTRE/issues/2868

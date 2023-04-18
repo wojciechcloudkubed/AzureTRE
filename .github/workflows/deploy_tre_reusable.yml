@@ -756,7 +756,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environmentName }}
     needs: [deploy_shared_services, register_bundles, register_user_resource_bundles]
-    timeout-minutes: 300
+    timeout-minutes: 600
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        number: [01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20]
     steps:
       - name: Checkout
         uses: actions/checkout@v3

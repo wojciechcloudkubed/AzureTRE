@@ -17,7 +17,7 @@ workspace_services = [
 ]
 
 
-@pytest.mark.extended
+# @pytest.mark.extended
 @pytest.mark.timeout(75 * 60)
 async def test_create_guacamole_service_into_base_workspace(setup_test_workspace_and_guacamole_service, verify) -> None:
     _, workspace_id, workspace_service_path, _ = setup_test_workspace_and_guacamole_service
