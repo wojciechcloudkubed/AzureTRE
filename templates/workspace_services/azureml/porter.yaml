@@ -155,6 +155,7 @@ install:
         - name: storage_tag
         - name: batch_tag
         - name: mcr_tag
+        - name: aml_fqdn
 
 upgrade:
   - terraform:
@@ -188,6 +189,7 @@ upgrade:
         - name: storage_tag
         - name: batch_tag
         - name: mcr_tag
+        - name: aml_fqdn
 
 uninstall:
   - terraform:

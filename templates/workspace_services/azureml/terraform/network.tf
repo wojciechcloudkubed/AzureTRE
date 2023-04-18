@@ -281,7 +281,7 @@ resource "azurerm_route_table" "aml" {
 }
 
 resource "azurerm_route" "firewall" {
-  count                  = var.is_exposed_externally ? 1 : 0
+  count                  = var.is_exposed_externally ? 0 : 1
   name                   = "rt-aml-${var.tre_id}-${local.short_service_id}"
   resource_group_name    = data.azurerm_resource_group.ws.name
   route_table_name       = azurerm_route_table.aml[count.index].name
